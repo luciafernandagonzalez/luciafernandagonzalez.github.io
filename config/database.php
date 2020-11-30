@@ -2,6 +2,12 @@
 
 use Illuminate\Support\Str;
 
+$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
+$host = $url["host"] ?? null;
+$username = $url["user"] ?? null;
+$password = $url["pass"] ?? null;
+$database = substr($url["path"], 1);
+
 return [
 
     /*
@@ -32,26 +38,6 @@ return [
     | choice installed on your machine before you begin development.
     |
     */
-    $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
-
-$host = $url["host"];
-$username = $url["user"];
-$password = $url["pass"];
-$database = substr($url["path"], 1);
-
-'your_heroku_mysql_connection' => array(
-    'driver' => 'mysql',
-    'host' => $host,
-    'database' => $database,
-    'username' => $username,
-    'password' => $password,
-    'charset' => 'utf8',
-    'collation' => 'utf8_unicode_ci',
-    'prefix' => '',
-),
-
-'default' => env('DB_CONNECTION', 'your_heroku_mysql_connection'),
-
 
     'connections' => [
 
@@ -64,7 +50,7 @@ $database = substr($url["path"], 1);
         ],
 
 
-        'mysql' => [
+       /**'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', 'localhost'),
@@ -82,6 +68,21 @@ $database = substr($url["path"], 1);
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
+        ],*/
+
+        'mysql' => [
+            'driver' => 'mysql',
+            'host' => $host,
+            'port' => env('DB_PORT', '3306'),
+            'database' => $database,
+            'username' => $username,
+            'password' => $password,
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
         ],
 
         'pgsql' => [
