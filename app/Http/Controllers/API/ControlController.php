@@ -41,8 +41,6 @@ class ControlController extends Controller
     public function store(Request $request)
     {
         //     
-
-        $controls = Control::all();
         
         $this->validate($request, [
             'control_codigo' => 'required',
@@ -52,20 +50,25 @@ class ControlController extends Controller
             'hora' => 'required'
         ]);
 
-        $tecnico = Tecnico::find($request->input('tecnico_legajo'));
+       // $tecnico = Tecnico::find($request->input('tecnico_legajo'));
 
         $control = new Control([
             'control_codigo' => $request->input('control_codigo'),
-            //'tecnico_legajo' => $request->input('tecnico_legajo'),
+            'tecnico_legajo' => $request->input('tecnico_legajo'),
             'tipo' => $request->input('tipo'),
             'fecha' => $request->input('fecha'),
             'hora' => $request->input('hora')
         ]);
         $control->save();
-        $control->tecnicos()->associate($tecnico);
-        return view('tecnicos.listado',['controls'=>$controls]);
-        //return redirect()->back();
+        //$control->tecnicos()->associate($tecnico);
+        return redirect()->back();
+        //return view('tecnicos.listado',['controls'=>$controls, 'tecnicos'=>$tecnicos]);
         
+        
+    }
+
+    public function controls(){
+        return $tecnico->controls;
     }
 
     public function create()
@@ -111,5 +114,13 @@ class ControlController extends Controller
     public function destroy(Control $control)
     {
         //
+        $control = Control::find($control_codigo);
+        if($control != null){
+
+            $control->delete();
+            return redirect()->route('tecnicos.listado');
+        }
+
+        return redirect()->route('tecnicos.listado')->with(['message' => 'Id incorrecto!']);
     }
 }

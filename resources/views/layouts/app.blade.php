@@ -86,6 +86,7 @@
         <li class="nav-item active">
           <a class="nav-link" href="/prov/calificaciones">Reporte <span class="sr-only">(current)</span></a>
         </li>
+        
       </ul>
     </div>
   </nav>

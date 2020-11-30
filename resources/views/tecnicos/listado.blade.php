@@ -63,6 +63,7 @@
                     <th scope="col" style="text-align: center;">Tipo</th>
                     <th scope="col" style="text-align: center;">Fecha</th>    
                     <th scope="col" style="text-align: center;">Hora</th> 
+              
                 </tr>
             </thead>
             <tbody>
@@ -73,6 +74,7 @@
                         <td style="text-align: center;">  {{ $item['tipo']}} </td>
                         <td style="text-align: center;">  {{ $item['fecha']}} </td>
                         <td style="text-align: center;">  {{ $item['hora']}} </td>
+                        
                     </tr>
                 @endforeach
             </tbody>            
@@ -82,7 +84,8 @@
 
     <!--SEGUNDA COLUMNA-->
     <div class="col-auto mr-auto" class="mx-auto" >
-      <form action="{{route('cont.store')}}" class="POST" method="post">
+      <form action="{{ route('cont.store', [$control_codigo]) }}" class="POST" method="post" accept-charset="UTF-8">
+      @csrf
       {!! csrf_field() !!}      
         <div class="form-group row" > <!--primera fila-->  
             <label for="control_codigo" class="col-sm-2 col-form-label">Codigo control</label>
@@ -99,14 +102,15 @@
             </div>
         </div>
           <div class="form-group row" > <!--segunda fila-->
-            <label for="proveedor_legajo" class="col-sm-2 col-form-label">Tecnico</label>
+            <label for="tecnico_legajo" class="col-sm-2 col-form-label">Tecnico</label>
               <div class="col-sm-10">
-                <select type="text" class="custom-select" class="form-control" class="form-control-text" aria-label="Example select with button addon" name="tipo">
+                <select type="text" class="custom-select" class="form-control" class="form-control-text" aria-label="Example select with button addon" name="tecnico_legajo">
                 <option selected>Seleccionar</option>
                 @foreach($tecnicos as $item)
-                <option value="tecnico_legajo"><?= $item['tecnico_legajo'] ?></option>
+                <option value="{{ $item->tecnico_legajo }}"><?= $item['tecnico_legajo'] ?></option>
                 @endforeach
                 </select>
+    
               </div>
           </div>
           <div class="form-group row "> <!--tercera fila-->
@@ -135,7 +139,6 @@
             <button class="btn btn-dark ml-auto">Guardar</button>
             <a href="{{route('cont.store')}}"></a>
           </div>
-        
       </form>  
     </div>    
     

@@ -29,7 +29,7 @@ if(version_compare(PHP_VERSION, '7.2.0', '>=')) {
     error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 }
 
-Route::group(['prefix' => 'cont'], function(){
+Route::group(['prefix' => 'cont'], function() {
     Route::get('', [
         'uses' => 'API\ControlController@index',
         'as' => 'cont.index'
@@ -47,7 +47,10 @@ Route::group(['prefix' => 'cont'], function(){
         'uses' => 'API\ControlController@store',
         'as' => 'cont.store'
     ]);
-    
+    Route::post('destroy/{control_codigo}', [
+        'uses' => 'API\ControlController@destroy',
+        'as' => 'cont.destroy'
+    ]);
 });
 
 Route::resource('/proveedors','API\ProveedorController');
